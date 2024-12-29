@@ -3,7 +3,7 @@
     public class MovDTO
     {
         public int IdCard { get; set; }
-        public DateTime? Fecha { get; set; }
+        public DateTime Fecha { get; set; }
 
         public string? Descrip { get; set; }
         public decimal? Price { get; set; }
