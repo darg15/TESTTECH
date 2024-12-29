@@ -1,0 +1,46 @@
+﻿@using Test.DTO
+@model MovDTO
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Nueva Compra</h1>
+
+<div class="container">
+
+    <p><b>Nombre del cliente:</b> @ViewBag.ClientName</p>
+</div>
+
+<div class="container">
+    <p><b>Numero de tarjeta de credito:</b> @ViewBag.Tarjeta </p>
+</div>
+
+<hr />
+<div style="border: 1px solid #ccc; padding: 20px;">
+    <h2 style="color: red;">Nueva Compra</h2>
+    <form asp-action="NewMov">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="mb-3">
+            <div class="mb-3">
+                <input type="number" asp-for="IdCard" class="form-control" id="idCard" value="@ViewBag.Id" aria-describedby="idCard" hidden readonly>
+            </div>
+
+            <label for="dateTL" class="form-label">Fecha Pago</label>
+            <input type="date" asp-for="Fecha" class="form-control" id="dateT" aria-describedby="date" required>
+            <span asp-validation-for="Fecha" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label for="desc" class="form-label">Descripcion</label>
+            <textarea type="text" asp-for="Descrip" class="form-control" id="desc" aria-describedby="descrip" required></textarea>
+            <span asp-validation-for="Fecha" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label for="number" class="form-label">Monto</label>
+            <input type="number" asp-for="Price" class="form-control" id="numberT" step="0.01" required>
+            <span asp-validation-for="Fecha" class="text-danger"></span>
+        </div>
+        <button type="submit" id="guardar" class="btn btn-primary">Submit</button>
+    </form>
+</div>
+
+

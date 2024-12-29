@@ -1,0 +1,87 @@
+﻿@using Test.DTO
+@using Test.Util
+@model List<EstadoDTO>
+@{
+    ViewData["Title"] = "Index";
+}
+
+@section Est {
+    <link href="https://cdn.datatables.net/2.1.8/css/dataTables.dataTables.css" rel="stylesheet" />
+}
+
+<h1>Estado de cuenta de TC</h1>
+
+<div class="container">
+    @if (Model != null && Model.Any())
+    {
+        <p><b>Nombre del cliente:</b> @Model[0].Nombre_cliente</p>
+    }
+    else
+    {
+        <p>No hay datos disponibles.</p>
+    }
+</div>
+
+@if (Model != null && Model.Any())
+{
+    <div class="container">
+        <p><b>Numero de tarjeta de credito:</b> @Util.EnmTarjeta(Model[0].Numero_tarjeta!) </p>
+    </div>
+    <div class="container">
+        <p><b>Cuota Minima a Pagar:</b> $@Util.Redondear(Model[0].Cuota_minima)</p>
+    </div>
+    <div class="container">
+        <p><b>Monto Total A Pagar:</b> $@Util.Redondear(Model[0].Saldo_total)</p>
+    </div>
+    <div class="container">
+        <p><b>Monto total de Contado con Intereses:</b> $@Util.Redondear(Model[0].Pago_intereses) </p>
+    </div>
+}
+
+<hr />
+
+<table class="table" id="tableEst">
+    <thead style="font-weight: bold">
+        <tr>
+            <td>Numero de Autorizacion</td>
+            <td>Fecha</td>
+            <td>Descripcion</td>
+            <td>Monto</td>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model == null || !Model.Any())
+        {
+            <tr>
+                <td colspan="4">No hay informacion</td>
+            </tr>
+        }
+        else
+        {
+            @foreach (var i in Model)
+            {
+                foreach (var j in i.Movs!)
+                {
+                    <tr>
+                        <td>@j.Numero_autorizacion</td>
+                        <td>@j.Fecha</td>
+                        <td>@j.Descrip</td>
+                        <td>$ @j.Price </td>
+                    </tr>
+                }
+            }
+        }
+    </tbody>
+</table>
+
+@section Scripts {
+    <script src="https://cdn.datatables.net/2.1.8/js/dataTables.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            if ($('#tableEst tbody tr').length > 1 || $('#tableEst tbody tr td').text() !== "No hay informacion") {
+                new DataTable('#tableEst');
+            }
+        });
+    </script>
+}

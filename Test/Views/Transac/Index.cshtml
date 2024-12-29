@@ -1,0 +1,77 @@
+﻿@using Test.DTO
+@using Test.Util
+@model List<TransaccionesDTO>
+@{
+    ViewData["Title"] = "Index";
+}
+
+@section Est {
+    <link href="https://cdn.datatables.net/2.1.8/css/dataTables.dataTables.css" rel="stylesheet" />
+}
+
+<h1>Transacciones</h1>
+
+<div class="container">
+    @if (Model != null && Model.Any())
+    {
+        <p><b>Nombre del cliente:</b> @Model[0].Nombre_cliente</p>
+    }
+    else
+    {
+        <p>No hay datos disponibles.</p>
+    }
+</div>
+
+@if (Model != null && Model.Any())
+{
+    <div class="container">
+        <p><b>Numero de tarjeta de credito:</b> @Util.EnmTarjeta(Model[0].Numero_tarjeta!) </p>
+    </div>
+}
+
+<hr />
+
+<table class="table" id="tableTr">
+    <thead style="font-weight: bold">
+        <tr>
+            <td>No. Autorizacion</td>
+            <td>Fecha</td>
+            <td>Descripcion</td>
+            <td>Cargo</td>
+            <td>Abono</td>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model == null || !Model.Any())
+        {
+            <tr>
+                <td colspan="5">No hay informacion</td>
+            </tr>
+        }
+        else
+        {
+            @foreach (var i in Model)
+            {
+                <tr>
+                    <td>@i.Numero_autorizacion</td>
+                    <td>@i.Fecha.ToString("dd/MM/yyyy")</td>
+                    <td>@i.Descr</td>
+                    <td>@(i.Cargo == 0 ? " " : $"$ {i.Cargo}") </td>
+                    <td> @(i.Abono == 0 ? " " : $"$ {i.Abono}") </td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
+
+@section Scripts {
+    <script src="https://cdn.datatables.net/2.1.8/js/dataTables.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            if ($('#tableTr tbody tr').length > 1 || $('#tableTr tbody tr td').text() !== "No hay informacion") {
+                new DataTable('#tableTr');
+            }
+        });
+    </script>
+}
