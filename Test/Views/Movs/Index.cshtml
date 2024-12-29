@@ -36,7 +36,7 @@
         </div>
         <div class="mb-3">
             <label for="number" class="form-label">Monto</label>
-            <input type="number" asp-for="Price" class="form-control" id="numberT" step="0.01" required>
+            <input type="number" asp-for="Price" class="form-control" id="numberT" step="0.01" required min="1">
             <span asp-validation-for="Fecha" class="text-danger"></span>
         </div>
         <button type="submit" id="guardar" class="btn btn-primary">Submit</button>
